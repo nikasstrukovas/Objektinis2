@@ -21,6 +21,7 @@ int GetIntInput();
 
 void Ivestis1(vector<Studentas> &studentai);
 void Ivestis2(vector<Studentas> &studentai);
+void Ivestis3(vector<Studentas> &studentai);
 void Isvestis(vector<Studentas> &studentai);
 
 
@@ -30,7 +31,7 @@ int main()
 {
     vector<Studentas> studentai;
 
-    cout << "Pasirinkite ka noresite daryti:\na) patys ivesite varda pavarde ir pazymius (rasykite 1)\nb) programa sugeneruos atsitiktini kieki atsitiktiniu pazymiu atsitiktiniam kiekiui studentu (rasykite 2): ";
+    cout << "Pasirinkite ka noresite daryti:\na) patys ivesite varda pavarde ir pazymius (rasykite 1)\nb) programa sugeneruos atsitiktini kieki atsitiktiniu pazymiu atsitiktiniam kiekiui studentu (rasykite 2)\nc) skaityti pazymius is failo (rasykite 3): ";
     
     while (true)
     {
@@ -42,6 +43,10 @@ int main()
         }
         else if (pasirinkimas == 2){
             Ivestis2(studentai); // Atsitiktinai sugeneruoti duomenys
+            break;
+        }
+        else if (pasirinkimas == 3){
+            Ivestis3(studentai); //Duomenys skaitomi is failo
             break;
         }
         else if (cin.eof()) {
@@ -95,6 +100,46 @@ int GetIntInput()
         }
     }
     return num;
+}
+
+
+void Ivestis3(vector<Studentas> &studentai)
+{
+    // Count n and m
+    ifstream infile_count(INFILENAME);
+    string s;
+    getline(infile_count, s);
+    int  n = CountN(s);
+    int m = 0;
+    while(getline(infile_count, s)) m++;
+
+    ifstream infile(INFILENAME);
+    string vardas, pavarde;
+    int sk[100];
+    getline(infile, vardas);
+
+    for(int i=0; i<m; i++)
+    {
+        float pazymiu_suma = 0;
+
+        // Nuskaitom ir apskaiciuojam vidurki
+        infile >> vardas >> pavarde;
+        for(int j=0; j<n; j++){
+            infile >> sk[j];
+            pazymiu_suma += sk[j];
+        }
+        infile >> sk[n];
+
+        float mediana = RastiMediana(sk, n);
+
+        Studentas studentas{
+            vardas, pavarde,
+            ((pazymiu_suma/n * 0.4) + (sk[n] * 0.6)),
+            mediana
+        };
+
+        studentai.push_back(studentas);
+    }
 }
 
 
