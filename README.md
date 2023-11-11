@@ -1,1 +1,1 @@
-# Objektinis
+##Strategija 1
