@@ -18,7 +18,9 @@ int main()
         if ( pasirinkimas == 1 ){
             
             Timer t;
-            cout << "Pasirinkite kaip noresite skaityti:\na) su vectors (rasykite 1)\na) su lists (rasykite 2)\nb) su deque (rasykite 3): ";
+
+            cout << "Iveskite kieki kuri skaitysite pagal failo pavadinima: ";
+            cin >> kiekis;
 
             t.reset();
 
@@ -26,7 +28,7 @@ int main()
             cout << "Failas nuskaitytas. Rikiuojama..." << endl;
             sortVector(studentai);
             
-            cout << "Failas buvo nuskaitytas ir išrikiuotas per: " <<  t.elapsed() << endl;
+            cout << "Failas buvo nuskaitytas ir isrikiuotas per: " <<  t.elapsed() << endl;
             break;
         }
         else if (pasirinkimas == 2){
@@ -47,8 +49,8 @@ int main()
     cout << endl << setw(17) << left << "Pavarde" << setw(17) << "Vardas" << setw(17)
         << "Galutinis (Vid.)"<< "/ Galutinis (Med.)\n" << string(70, '-') << endl;
     
-    for(const auto& s : studentai)
-        cout << setw(17) << left << s.pavarde() << setw(17) << s.vardas() << setw(17) << fixed << setprecision(2) << s.vidurkis() << s.mediana() << endl;
+    for(const auto& studentas : studentai)
+        cout << studentas;
 
     system("pause");
     return 0;
