@@ -1,5 +1,13 @@
 #include "Studentas.h"
 
+std::ostream& operator<< (std::ostream& out, const Studentas& s)
+{
+    // Since operator<< is a friend of the Point class, we can access Point's members directly.
+    out << std::setw(17) << std::left << s.pavarde() << std::setw(17) << s.vardas() << std::setw(17)
+    << std::fixed << std::setprecision(2) << s.vidurkis() << s.mediana() << std::endl;
+
+    return out; // return std::ostream so we can chain calls to operator<<
+}
 
 bool compareStudentasByVardas(const Studentas& s1, const Studentas& s2) {
     return s1.vardas() < s2.vardas();
@@ -8,6 +16,7 @@ bool compareStudentasByVardas(const Studentas& s1, const Studentas& s2) {
 void sortVector(std::vector<Studentas>& studentai) {
     sort(studentai.begin(), studentai.end(), compareStudentasByVardas);
 }
+
 
 int GetIntInput()
 {
@@ -156,6 +165,7 @@ void Ivestis2(std::vector<Studentas> &studentai)
     }
 }
 
+// Reading from files
 void Ivestis(std::vector<Studentas> &studentai, int &kiekis){
     std::string INFILENAME = "failai/sugeneruoti/studentai" + std::to_string(kiekis) + ".txt";
 
@@ -173,7 +183,7 @@ void Ivestis(std::vector<Studentas> &studentai, int &kiekis){
         infile_count.close();
 
         std::ifstream infile(INFILENAME);
-        //infile.rdbuf()->pubsetbuf(new char[1 << 20], 1 << 20); // Set buffer to 1 MB
+        infile.rdbuf()->pubsetbuf(new char[1 << 20], 1 << 20); // Set buffer to 1 MB
         std::string vardas, pavarde;
         int sk[100];
         std::getline(infile, vardas);
