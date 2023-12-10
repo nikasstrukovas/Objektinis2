@@ -10,6 +10,7 @@
 #include <limits>
 #include <algorithm>
 
+
 class Studentas {
 // realizacija
 private:
@@ -20,19 +21,31 @@ private:
 
 // interfeisas
 public:
-    Studentas(const std::string& vardas, const std::string& pavarde, double vidurkis, double mediana) : 
-        vardas_(vardas), pavarde_(pavarde), vidurkis_(vidurkis), mediana_(mediana) {}; // constructor with parameters
-
-    // copy constructor
-    Studentas(const Studentas& s) : vardas_(s.vardas_), pavarde_(s.pavarde_), vidurkis_(s.vidurkis_), mediana_(s.mediana_) {};
-  
     inline std::string vardas() const { return vardas_; }    // get'eriai, inline
     inline std::string pavarde() const { return pavarde_; }  // get'eriai, inline
     inline double vidurkis() const { return vidurkis_; }    // get'eriai, inline
     inline double mediana() const { return mediana_; }       // get'eriai, inline
 
+    // Rule of three: constructor with parameters
+    Studentas(const std::string &vardas, const std::string &pavarde, double vidurkis, double mediana) : vardas_(vardas), pavarde_(pavarde), vidurkis_(vidurkis), mediana_(mediana){}; // constructor with parameters
+
+    // Rule of three: assignment operator
+    Studentas& operator=(const Studentas& s) {
+        vardas_ = s.vardas_;
+        pavarde_ = s.pavarde_;
+        vidurkis_ = s.vidurkis_;
+        mediana_ = s.mediana_;
+        return *this;
+    }
+
+    // Rule of three: destructor
+    ~Studentas() {};
+
+    // Overloading << operator
+    friend std::ostream& operator<< (std::ostream& out, const Studentas& point);
 
 };
+
 
 void sortVector(std::vector<Studentas>& studentai);
 int GetIntInput();
