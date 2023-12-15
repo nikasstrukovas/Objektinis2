@@ -11,35 +11,41 @@
 #include <algorithm>
 
 
-class Studentas {
+class Zmogus{
+// realizacija
+protected:
+    std::string vardas_;
+    std::string pavarde_;
+public:
+    Zmogus(std::string vardas = "", std::string pavarde = "") : vardas_{vardas}, pavarde_{pavarde} {}
+    virtual inline std::string vardas() const = 0;
+    virtual inline std::string pavarde() const = 0;
+    virtual ~Zmogus() = default;
+};
+
+class Studentas:public Zmogus{
 // realizacija
 private:
-  std::string vardas_;
-  std::string pavarde_;
   double vidurkis_;
   double mediana_;
 
 // interfeisas
 public:
+    // Rule of five
+    Studentas() = default;
+    Studentas(std::string vardas="", std::string pavarde= "", double vidurkis=0, double mediana=0)
+    : Zmogus{vardas, pavarde}, vidurkis_{vidurkis}, mediana_{mediana} {}
+
+    Studentas(const Studentas& s) = default;
+    Studentas& operator=(const Studentas& s) = default;
+    ~Studentas() = default;
+
+    // Overriding vardas() and pavarde() from Zmogus
     inline std::string vardas() const { return vardas_; }    // get'eriai, inline
     inline std::string pavarde() const { return pavarde_; }  // get'eriai, inline
+    
     inline double vidurkis() const { return vidurkis_; }    // get'eriai, inline
     inline double mediana() const { return mediana_; }       // get'eriai, inline
-
-    // Rule of three: constructor with parameters
-    Studentas(const std::string &vardas, const std::string &pavarde, double vidurkis, double mediana) : vardas_(vardas), pavarde_(pavarde), vidurkis_(vidurkis), mediana_(mediana){}; // constructor with parameters
-
-    // Rule of three: assignment operator
-    Studentas& operator=(const Studentas& s) {
-        vardas_ = s.vardas_;
-        pavarde_ = s.pavarde_;
-        vidurkis_ = s.vidurkis_;
-        mediana_ = s.mediana_;
-        return *this;
-    }
-
-    // Rule of three: destructor
-    ~Studentas() {};
 
     // Overloading << operator
     friend std::ostream& operator<< (std::ostream& out, const Studentas& point);
